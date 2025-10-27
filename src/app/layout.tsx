@@ -25,9 +25,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
       >
-        {children}
+      <nav className="w-full h-1/12 bg-red-600 flex justify-start items-center ">
+          <div className="flex items-center m-2">
+          <h1 className="bg-white rounded-4xl p-1 mr-1">❤️</h1>
+          <h1 className="font-bold text-xl">BloodLife Portal</h1>
+          </div>
+          
+      </nav>
+      <main className="w-full h-11/12 bg-white">
+      {children}
+      </main>
+        
       </body>
     </html>
   );
