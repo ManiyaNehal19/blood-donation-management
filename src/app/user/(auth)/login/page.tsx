@@ -1,5 +1,6 @@
 import Link from "next/link";
 const Page = () => {
+  
   return (
     <div className="flex justify-center items-center w-full h-screen bg-linear-to-br from-red-100 via-gray-100 to-white">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 flex flex-col items-center">
