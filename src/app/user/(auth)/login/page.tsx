@@ -1,11 +1,20 @@
 "use client"
 import Link from "next/link";
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
-  const handleSubmit = ()=>{
-
+  const route = useRouter();
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    try {
+      const res = await axios.post("/api/donors", {email:email, password:password});
+      route.push("/user/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <div className="flex justify-center items-center w-full h-screen bg-linear-to-br from-red-100 via-gray-100 to-white">
@@ -16,7 +25,7 @@ const Page = () => {
         </div>
 
         <h2 className="text-lg text-gray-500 mb-6">Login to your donor account</h2>
-        <form className="w-full flex flex-col gap-5">
+        <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <label htmlFor="email" className="text-gray-600 mb-1 text-sm font-medium">
               Email
@@ -25,6 +34,7 @@ const Page = () => {
               type="email"
               id="user_email"
               placeholder="Enter your email"
+              onChange={(e)=>setEmail(e.target.value)}
               className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
             />
           </div>
@@ -35,6 +45,7 @@ const Page = () => {
             </label>
             <input
               type="password"
+              onChange={(e)=>setpassword(e.target.value)}
               id="password"
               placeholder="Enter your password"
               className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"

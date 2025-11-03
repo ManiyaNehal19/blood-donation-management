@@ -6,7 +6,8 @@ export async function POST(request:Request) {
   try {
     await connectionToDatabase();
     const { firstName,lastName,dob,gender,contact,cnic, email, city, bloodGroup, password} = await request.json();
-    const existingDonor = await Donor.findOne({
+    if(firstName && lastName && dob && gender && contact && cnic &&  email &&  city &&  bloodGroup &&  password){
+      const existingDonor = await Donor.findOne({
       $or: [{ email }, { cnic }],
     });
 
@@ -22,11 +23,16 @@ export async function POST(request:Request) {
       { message: "Donor registered successfully", donor: newDonor },
       { status: 201 }
     );
+    }else{
+      const loginDonor = await Donor.findOne({email, password});
+       return NextResponse.json(
+      { message: "Donor found successfully", donor: loginDonor },
+      { status: 201 }
+    );
+    }
+    
   } catch (error) {
     console.error("Error registering donor:", error);
-    // return NextResponse.json(
-    //   { message: "Server error", error: error.message },
-    //   { status: 500 }
-    // );
+  
   }
 }

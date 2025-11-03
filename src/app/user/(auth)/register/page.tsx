@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const DonorRegister = () => {
@@ -18,31 +19,33 @@ const DonorRegister = () => {
   const [diseases, setDiseases] = useState("");
   const [allergies, setAllergies] = useState("");
   const [prescriptions, setPrescriptions] = useState("");
+  const router = useRouter();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const donorData = {
-      firstName,
-      lastName,
-      dob,
-      gender,
-      contact,
-      cnic,
-      email,
-      city,
-      bloodGroup,
-      password,
-      diseases: diseases.split(",").map((d) => d.trim()).filter(Boolean),
-      allergies: allergies.split(",").map((a) => a.trim()).filter(Boolean),
-      prescriptions: prescriptions.split(",").map((p) => p.trim()).filter(Boolean),
-    };
+    // const donorData = {
+    //   firstName,
+    //   lastName,
+    //   dob,
+    //   gender,
+    //   contact,
+    //   cnic,
+    //   email,
+    //   city,
+    //   bloodGroup,
+    //   password,
+    //   diseases: diseases.split(",").map((d) => d.trim()).filter(Boolean),
+    //   allergies: allergies.split(",").map((a) => a.trim()).filter(Boolean),
+    //   prescriptions: prescriptions.split(",").map((p) => p.trim()).filter(Boolean),
+    // };
     try {
       const res = await axios.post("/api/donors",{firstName, lastName, dob, gender, contact, cnic, email, city, bloodGroup, password
       } );
+      router.push("/user/dashboard");
     } catch (error) {
       console.log(error)
     }
-    console.log("🩸 Donor Data Submitted:", donorData);
+    // console.log("🩸 Donor Data Submitted:", donorData);
   };
 
   return (
