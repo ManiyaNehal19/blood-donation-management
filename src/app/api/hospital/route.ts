@@ -16,7 +16,6 @@ export async function POST(request) {
     console.log(email, password, "API route------------------");
     
     const existingHospital = await hospital.findOne({ email, password });
-
     if (existingHospital) {
       return NextResponse.json(
         { message: "Login successful", hospital: existingHospital },
