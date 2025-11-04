@@ -23,21 +23,6 @@ const DonorRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const donorData = {
-    //   firstName,
-    //   lastName,
-    //   dob,
-    //   gender,
-    //   contact,
-    //   cnic,
-    //   email,
-    //   city,
-    //   bloodGroup,
-    //   password,
-    //   diseases: diseases.split(",").map((d) => d.trim()).filter(Boolean),
-    //   allergies: allergies.split(",").map((a) => a.trim()).filter(Boolean),
-    //   prescriptions: prescriptions.split(",").map((p) => p.trim()).filter(Boolean),
-    // };
     try {
       const res = await axios.post("/api/donors",{firstName, lastName, dob, gender, contact, cnic, email, city, bloodGroup, password
       } );
@@ -45,7 +30,6 @@ const DonorRegister = () => {
     } catch (error) {
       console.log(error)
     }
-    // console.log("🩸 Donor Data Submitted:", donorData);
   };
 
   return (
@@ -61,7 +45,7 @@ const DonorRegister = () => {
 
       <div className="w-3/4 bg-white shadow-xl rounded-2xl p-8 flex flex-col items-center">
         <div className="flex items-center mb-6">
-          <span className="text-2xl">🧑🩸</span>
+          <span className="text-2xl">👤</span>
           <h1 className="font-bold text-2xl ml-2 text-gray-700">
             Donor Registration
           </h1>
