@@ -26,6 +26,7 @@ const DonorRegister = () => {
     try {
       const res = await axios.post("/api/donors",{firstName, lastName, dob, gender, contact, cnic, email, city, bloodGroup, password
       } );
+      const res2  = await axios.post("/api/medicalHis", {cnic, prescriptions, allergies, diseases});
       router.push("/user/dashboard");
     } catch (error) {
       console.log(error)

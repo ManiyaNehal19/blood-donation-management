@@ -6,6 +6,7 @@ export async function POST(request:Request) {
   try {
     await connectionToDatabase();
     const { firstName,lastName,dob,gender,contact,cnic, email, city, bloodGroup, password} = await request.json();
+    
     if(firstName && lastName && dob && gender && contact && cnic &&  email &&  city &&  bloodGroup &&  password){
       const existingDonor = await Donor.findOne({
       $or: [{ email }, { cnic }],
