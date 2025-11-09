@@ -25,8 +25,10 @@ export async function POST(request:Request) {
       { status: 201 }
     );
     }else{
-      const loginDonor = await Donor.findOne({email, password});
-       return NextResponse.json(
+      const loginDonor = await Donor.findOne({email, password, cnic});
+      console.log("In else block", cnic);
+      
+      return NextResponse.json(
       { message: "Donor found successfully", donor: loginDonor },
       { status: 201 }
     );

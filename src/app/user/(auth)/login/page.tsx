@@ -6,12 +6,15 @@ import { useRouter } from "next/navigation";
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
+  const [cnic, setcnic] = useState("");
   const route = useRouter();
   const handleSubmit = async (e)=>{
     e.preventDefault();
     try {
-      const res = await axios.post("/api/donors", {email:email, password:password});
-      route.push("/user/dashboard");
+      const res = await axios.post("/api/donors", {email:email, password:password, cnic:cnic});
+      console.log("return from api call");
+
+      route.push(`/user/dashboard/${cnic}`);
     } catch (error) {
       console.log(error);
     }
@@ -33,6 +36,7 @@ const Page = () => {
             <input
               type="email"
               id="user_email"
+              required
               placeholder="Enter your email"
               onChange={(e)=>setEmail(e.target.value)}
               className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
@@ -48,6 +52,22 @@ const Page = () => {
               onChange={(e)=>setpassword(e.target.value)}
               id="password"
               placeholder="Enter your password"
+              required
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="cnic" className="text-gray-600 mb-1 text-sm font-medium">
+              CNIC
+            </label>
+            <input
+              
+              onChange={(e)=>setcnic(e.target.value)}
+              id="cnic"
+              pattern="\d{5}-\d{7}-\d{1}"
+              required
+              placeholder="42101-1234567-1"
               className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
             />
           </div>
