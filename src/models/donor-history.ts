@@ -14,11 +14,10 @@ const donorHistorySchema = new mongoose.Schema({
     required: true
   },
   unitId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Unit",
+    type: String,
     required: true
   }
-}, { timestamps: true });
+});
 
-const DonorHistory = mongoose.models.DoonorHistory || mongoose.model("DoonorHistory", donorHistorySchema);
+const DonorHistory = mongoose.models.donor_histories || mongoose.model("donor_histories", donorHistorySchema);
 export default DonorHistory;
