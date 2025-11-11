@@ -28,7 +28,7 @@ export async function POST(request) {
      {
         bloodGroup: user?.bloodGroup ?? "Not found",
         totalDonations: totalDonations ?? 0,
-        nextEligibleDate: nextEligibleDate.toISOString().split("T")[0] || Date.now().toISOString().split("T")[0],
+        nextEligibleDate: nextEligibleDate?.toISOString().split("T")[0] || Date.now().toString().split("T")[0],
         eligibilityStatus: eligibilityStatus
       },
       { status: 201 }

@@ -41,15 +41,20 @@
 "use client";
 
 import UserHeader from "@/app/components/UserHeader";
+import UserHistory from "@/app/components/UserHistory";
+import UserInfo from "@/app/components/UserInfo";
 import { useParams } from "next/navigation";
+
 
 export default function DashboardPage() {
   const params = useParams();
   const cnic = params.cnic;
 
   return (
-    <div className="w-full px-4 py-4 text-gray-800">
+    <div className="w-full px-4 py-4 text-gray-800 flex flex-col items-center justify-center">
       <UserHeader cnic={cnic}/>
+      <UserInfo cnic={cnic}/>
+      <UserHistory cnic={cnic}/>
     </div>
   );
 }

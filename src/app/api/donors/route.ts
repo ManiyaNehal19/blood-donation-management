@@ -39,3 +39,24 @@ export async function POST(request:Request) {
   
   }
 }
+
+
+export async function GET(request: Request) {
+  await connectionToDatabase();
+
+  try {
+    const { searchParams } = new URL(request.url);
+    const cnic = searchParams.get("cnic");
+
+    if (!cnic) {
+      return NextResponse.json({ error: "CNIC required" }, { status: 400 });
+    }
+
+    const user = await Donor.findOne({ cnic });
+
+    return NextResponse.json({ user }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ error: "Server Error" }, { status: 500 });
+  }
+}
