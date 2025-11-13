@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const cnic = searchParams.get("cnic");
     console.log(cnic, "get cnic ----------------");
-    const user = await DonorHistory.find({cnic});
+    const user = await DonorHistory.find({cnic}).sort({historyDate:-1}).limit(3);
     console.log("user in get -----------", user);
 
     return NextResponse.json({user }, { status: 201 });

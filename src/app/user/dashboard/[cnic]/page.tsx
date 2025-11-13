@@ -41,20 +41,28 @@
 "use client";
 
 import UserHeader from "@/app/components/UserHeader";
-import UserHistory from "@/app/components/UserHistory";
 import UserInfo from "@/app/components/UserInfo";
+import { useState } from "react";
 import { useParams } from "next/navigation";
+import AppointmentDialog from "@/app/components/AppointmentDialog";
 
 
 export default function DashboardPage() {
+  const [appointment_diaglog, setappointment_dialog] = useState(false);
   const params = useParams();
-  const cnic = params.cnic;
+  const cnic = params.cnic?.toString();
 
   return (
-    <div className="w-full px-4 py-4 text-gray-800 flex flex-col items-center justify-center">
+    <div className="w-full px-4 py-4 text-gray-800 bg-white flex flex-col items-center justify-center">
+      {appointment_diaglog && <AppointmentDialog cnic={cnic}/>}
       <UserHeader cnic={cnic}/>
+      <div className="flex items-center justify-end w-8/10 mt-4">
+        <button 
+        onClick={()=>setappointment_dialog(true)} 
+        className="bg-red-600  hover:bg-red-700 cursor-pointer text-white p-3 rounded-lg">Schedule Donation </button>
+      </div>
       <UserInfo cnic={cnic}/>
-      <UserHistory cnic={cnic}/>
+     
     </div>
   );
 }
