@@ -6,4 +6,7 @@ const appointmentSchema = new mongoose.Schema({
   time: { type: String, required: true }
 });
 
-export default mongoose.model("Appointment", appointmentSchema);
+appointmentSchema.index({ donorCnic: 1, date: 1, time: 1 }, { unique: true });
+
+const Appointment = mongoose.models.Appointment || mongoose.model("Appointment", appointmentSchema);
+export default Appointment;

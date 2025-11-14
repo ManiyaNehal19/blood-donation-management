@@ -54,7 +54,7 @@ export default function DashboardPage() {
 
   return (
     <div className="w-full px-4 py-4 text-gray-800 bg-white flex flex-col items-center justify-center">
-      {appointment_diaglog && <AppointmentDialog cnic={cnic}/>}
+      {appointment_diaglog && <AppointmentDialog cnic={cnic} onClose={()=>setappointment_dialog(false)}/> }
       <UserHeader cnic={cnic}/>
       <div className="flex items-center justify-end w-8/10 mt-4">
         <button 
