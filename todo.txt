@@ -1,4 +1,4 @@
-- Create upcoming appointments list 
+- Create upcoming appointments list ✅
 - User can see its diseases allergies and prescriptions of user
 - Create staff dashboard
 - Create Hospital dashboard

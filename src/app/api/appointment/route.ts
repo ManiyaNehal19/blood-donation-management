@@ -23,3 +23,16 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET(request:Request){
+  await connectionToDatabase();
+  try{
+     const { searchParams } = new URL(request.url);
+     const cnic = searchParams.get("cnic");
+     const todaysDate = Date.now();
+     const upcomingApp = await Appointment.find({donorCnic: cnic, date:{$gte : todaysDate}});
+     return NextResponse.json({message: upcomingApp}, {status:201});
+  }catch(error){
+    console.log(error);
+  }
+}

@@ -9,6 +9,7 @@ interface UserInfoProps {
 
 const UserInfo = ({ cnic }: UserInfoProps) => {
   const [user, setUser] = useState<any>(null);
+  const [userMed, setUsermed] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [userHistory, setUserHistory] = useState<any[]>([]);
 
@@ -19,8 +20,10 @@ const UserInfo = ({ cnic }: UserInfoProps) => {
       if (!cnic) return;
       try {
         const res = await axios.get("/api/donors", { params: { cnic } });
+        const res2 = await axios.get("/api/medicalHis", {params: {cnic}});
         if (!ignore && res.data.user) {
           setUser(res.data.user);
+          setUsermed(res2.data.message);
         }
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -72,6 +75,10 @@ const UserInfo = ({ cnic }: UserInfoProps) => {
               <Info label="City" value={user.city} />
               <Info label="CNIC" value={user.cnic} />
               <Info label="Gender" value={user.gender} />
+              <Info label="Prescriptions" value={userMed.prescriptions?.toString()}/>
+              <Info label="Allergies" value={userMed.allergies?.toString()}/>
+              <Info label="Diseases" value={userMed.diseases?.toString()}/>
+
             </div>
           </div>
 
@@ -87,7 +94,6 @@ const UserInfo = ({ cnic }: UserInfoProps) => {
   );
 };
 
-// small info field helper
 const Info = ({ label, value }: { label: string; value: string }) => (
   <div>
     <label className="block text-sm font-medium text-gray-600 mb-1">{label}</label>

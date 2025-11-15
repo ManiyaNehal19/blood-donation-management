@@ -45,6 +45,7 @@ import UserInfo from "@/app/components/UserInfo";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import AppointmentDialog from "@/app/components/AppointmentDialog";
+import UserAppoit from "@/app/components/UserAppoit";
 
 
 export default function DashboardPage() {
@@ -62,7 +63,7 @@ export default function DashboardPage() {
         className="bg-red-600  hover:bg-red-700 cursor-pointer text-white p-3 rounded-lg">Schedule Donation </button>
       </div>
       <UserInfo cnic={cnic}/>
-     
+     <UserAppoit cnic={cnic}/>
     </div>
   );
 }
