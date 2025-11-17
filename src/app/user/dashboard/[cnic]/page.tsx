@@ -40,12 +40,12 @@
 // export default Page;
 "use client";
 
-import UserHeader from "@/app/components/UserHeader";
+import UserHeader from "@/app/components/DonorComponents/UserHeader";
 import UserInfo from "@/app/components/UserInfo";
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import AppointmentDialog from "@/app/components/AppointmentDialog";
-import UserAppoit from "@/app/components/UserAppoit";
+import AppointmentDialog from "@/app/components/DonorComponents/AppointmentDialog";
+import UserAppoit from "@/app/components/DonorComponents/UserAppoit";
 
 
 export default function DashboardPage() {

@@ -15,7 +15,8 @@ const donorHistorySchema = new mongoose.Schema({
   },
   unitId: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   }
 });
 

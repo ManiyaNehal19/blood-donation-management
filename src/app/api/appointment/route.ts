@@ -12,6 +12,7 @@ export async function POST(request: Request) {
       donorCnic: cnic,
       date: new Date(date),
       time: time,
+      status: false
     });
 
     return NextResponse.json({ message: "Appointment created", res });

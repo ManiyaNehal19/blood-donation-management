@@ -2,10 +2,10 @@ import connectionToDatabase from "@/lib/mongoose";
 import staff from "@/models/staff";
 import { NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function POST(request:Request) {
   try {
     await connectionToDatabase();
-    const { email, password } = await request.json();
+    const { email, password, cnic } = await request.json();
 
     if (!email || !password) {
       return NextResponse.json(
@@ -16,7 +16,7 @@ export async function POST(request) {
 
     console.log(email, password, "Staff login API route------------------");
 
-    const existingStaff = await staff.findOne({ email, password });
+    const existingStaff = await staff.findOne({ email, password, CNIC:cnic });
 
     if (existingStaff) {
       return NextResponse.json(
@@ -32,9 +32,5 @@ export async function POST(request) {
     }
   } catch (error) {
     console.error("Error checking staff credentials:", error);
-    return NextResponse.json(
-      { message: "Server error", error: error.message },
-      { status: 500 }
-    );
   }
 }
