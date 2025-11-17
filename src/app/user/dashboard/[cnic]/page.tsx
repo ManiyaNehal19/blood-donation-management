@@ -41,7 +41,7 @@
 "use client";
 
 import UserHeader from "@/app/components/DonorComponents/UserHeader";
-import UserInfo from "@/app/components/UserInfo";
+import UserInfo from "@/app/components/DonorComponents/UserInfo";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import AppointmentDialog from "@/app/components/DonorComponents/AppointmentDialog";

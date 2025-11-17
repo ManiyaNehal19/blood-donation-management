@@ -12,7 +12,6 @@ export default function Home() {
   return (
     <div className="flex justify-center items-center w-full h-screen bg-linear-to-br from-red-100 via-gray-100 to-white">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 flex flex-col items-center">
-        {/* Header */}
         <div className="flex items-center mb-6">
           <span className="text-2xl">❤️</span>
           <h1 className="font-bold text-2xl ml-2 text-gray-700">BloodLife Portal</h1>
