@@ -1,7 +1,8 @@
 "use client"
 import HospHeader from '@/app/components/HospitalComponents/HospHeader'
 import RequestButton from '@/app/components/HospitalComponents/RequestButton';
-import { useState } from 'react';
+import RequestHistory from '@/app/components/HospitalComponents/RequestHistory';
+// import { useState } from 'react';
 
 const page = () => {
 
@@ -10,6 +11,7 @@ const page = () => {
 
       <HospHeader/>
       <RequestButton/>
+      <RequestHistory/>
     </div>
   )
 }
