@@ -20,6 +20,10 @@ const BloodSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    left:{
+      type: Number,
+      required:true,
+    }
   },
 );
 

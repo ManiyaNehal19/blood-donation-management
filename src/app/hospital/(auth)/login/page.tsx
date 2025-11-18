@@ -11,7 +11,8 @@ const Page = () => {
     try {
     console.log(email, password,"email password in handlesubmti");
       const result = await axios.post("/api/hospital", { email, password });
-      router.push("/hospital/dashboard");
+      const id = result.data.id;
+      router.push(`/hospital/dashboard/${id}`);
     } catch (error) {
       console.log(error);
     }
