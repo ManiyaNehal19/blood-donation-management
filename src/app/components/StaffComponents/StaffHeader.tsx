@@ -4,13 +4,11 @@ import axios from "axios";
 export default function DashboardCards() {
   const [totalAppointments, settotalappointment] = useState<number>(0);
   const [totalDonors, settotaDonors] = useState<number>(0);
-  const [totalunits, settotalunits] = useState<number>(0);
   useEffect(()=>{
     async function getDate (){
       try{
         const res = await axios.get("/api/staffheader", {params:{}});
         settotalappointment(res.data.totalAppointments);
-        settotalunits(res.data.totalUnitsAvailable);
         settotaDonors(res.data.totalDonors);
       }catch(error){
         console.log(error);
@@ -20,13 +18,7 @@ export default function DashboardCards() {
   }, [])
 
   const cards = [
-    {
-      title: "Total Units Available",
-      value: totalunits,
-      icon: "🩸",
-      color: "text-blue-700",
-      bgcolor:"bg-blue-200"
-    },
+    
     {
       title: "Today's Donations",
       value: totalAppointments,
@@ -35,7 +27,7 @@ export default function DashboardCards() {
       bgcolor:"bg-green-200"
     },
     {
-      title: "Active Donors",
+      title: "Total Donors",
       value: totalDonors,
       icon:"👫" ,
       color:"text-purple-700",

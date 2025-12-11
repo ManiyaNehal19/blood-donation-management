@@ -3,91 +3,99 @@ import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+
 const Page = () => {
-  const [email, setEmail] = useState("");
-  const [password, setpassword] = useState("");
-  const [cnic, setcnic] = useState("");
-  const route = useRouter();
-  const handleSubmit = async (e)=>{
-    e.preventDefault();
-    try {
-      const res = await axios.post("/api/donors", {email:email, password:password, cnic:cnic});
-      console.log("return from api call");
+ const [email, setEmail] = useState("");
+ const [password, setpassword] = useState("");
+ const [errorMessage, setErrorMessage] = useState("");
+ const route = useRouter();
 
-      route.push(`/user/dashboard/${cnic}`);
-    } catch (error) {
-      console.log(error);
-    }
+ const handleSubmit = async (e)=>{
+  e.preventDefault();
+  setErrorMessage("");
+
+  try {
+   const res = await axios.post("/api/donors", {
+    email: email,
+    password: password,
+    login: true,
+   });
+   
+   const cnic = res.data.cnic;
+   console.log("Login successful, CNIC:", cnic);
+   
+   route.push(`/user/dashboard/${cnic}`);
+
+  } catch (error) {
+   console.log("Login Error:", error);
+   
+   if (axios.isAxiosError(error) && error.response) {
+    setErrorMessage(error.response.data.message || "Login failed. Please check your credentials.");
+   } else {
+    setErrorMessage("An unexpected error occurred during login.");
+   }
   }
-  return (
-    <div className="flex justify-center items-center w-full h-screen bg-linear-to-br from-red-100 via-gray-100 to-white">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 flex flex-col items-center">
-        <div className="flex items-center mb-6">
-          <span className="text-2xl">❤️</span>
-          <h1 className="font-bold text-2xl ml-2 text-gray-700">BloodLife Portal</h1>
-        </div>
+ }
 
-        <h2 className="text-lg text-gray-500 mb-6">Login to your donor account</h2>
-        <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
-          <div className="flex flex-col">
-            <label htmlFor="email" className="text-gray-600 mb-1 text-sm font-medium">
-              Email
-            </label>
-            <input
-              type="email"
-              id="user_email"
-              required
-              placeholder="Enter your email"
-              onChange={(e)=>setEmail(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label htmlFor="password" className="text-gray-600 mb-1 text-sm font-medium">
-              Password
-            </label>
-            <input
-              type="password"
-              onChange={(e)=>setpassword(e.target.value)}
-              id="password"
-              placeholder="Enter your password"
-              required
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label htmlFor="cnic" className="text-gray-600 mb-1 text-sm font-medium">
-              CNIC
-            </label>
-            <input
-              
-              onChange={(e)=>setcnic(e.target.value)}
-              id="cnic"
-              pattern="\d{5}-\d{7}-\d{1}"
-              required
-              placeholder="42101-1234567-1"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600 transition-all duration-200 cursor-pointer"
-          >
-            Login
-          </button>
-        </form>
-        <p className="text-gray-500 text-sm mt-6">
-          Don’t have an account?{" "}
-          <Link href="/user/register" className="text-red-500 hover:underline cursor-pointer">
-            Register
-          </Link>
-        </p>
-      </div>
+ return (
+  <div className="flex justify-center items-center w-full h-screen bg-linear-to-br from-red-100 via-gray-100 to-white">
+   <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 flex flex-col items-center">
+    <div className="flex items-center mb-6">
+     <span className="text-2xl">❤️</span>
+     <h1 className="font-bold text-2xl ml-2 text-gray-700">BloodLife Portal</h1>
     </div>
-  );
+
+    <h2 className="text-lg text-gray-500 mb-6">Login to your donor account</h2>
+    <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
+     {errorMessage && (
+      <div className="text-red-600 bg-red-100 border border-red-300 p-3 rounded-lg text-sm">
+       {errorMessage}
+      </div>
+     )}
+     <div className="flex flex-col">
+      <label htmlFor="email" className="text-gray-600 mb-1 text-sm font-medium">
+       Email
+      </label>
+      <input
+       type="email"
+       id="user_email"
+       required
+       placeholder="Enter your email"
+       onChange={(e)=>setEmail(e.target.value)}
+       className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
+      />
+     </div>
+
+     <div className="flex flex-col">
+      <label htmlFor="password" className="text-gray-600 mb-1 text-sm font-medium">
+       Password
+      </label>
+      <input
+       type="password"
+       onChange={(e)=>setpassword(e.target.value)}
+       id="password"
+       placeholder="Enter your password"
+       required
+       className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
+      />
+     </div>
+
+     <button
+      type="submit"
+      className="w-full bg-red-500 text-white font-semibold py-2 rounded-lg hover:bg-red-600 transition-all duration-200 cursor-pointer"
+     >
+      Login
+     </button>
+    </form>
+    <p className="text-gray-500 text-sm mt-6">
+     Don’t have an account?{" "}
+     <Link href="/user/register" className="text-red-500 hover:underline cursor-pointer">
+      Register
+     </Link>
+    </p>
+   </div>
+  </div>
+ );
 };
 
 export default Page;
