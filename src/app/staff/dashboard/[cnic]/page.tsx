@@ -27,6 +27,7 @@ import DashboardCards from "@/app/components/StaffComponents/StaffHeader"
 import BloodInventory from '@/app/components/StaffComponents/Inventory';
 import TodaysDonations from '@/app/components/StaffComponents/TodoDonation';
 import ScheduledAppointments from '@/app/components/StaffComponents/ScheduledDontion';
+import HospReq from '@/app/components/StaffComponents/HospReq';
 
 export default function DashboardPage() {
   const params = useParams();
@@ -38,6 +39,7 @@ export default function DashboardPage() {
         <BloodInventory />
         <TodaysDonations />
         <ScheduledAppointments />
+        <HospReq/>
       </div>
  
   );

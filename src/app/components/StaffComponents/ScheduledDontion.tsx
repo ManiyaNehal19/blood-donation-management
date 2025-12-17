@@ -28,7 +28,7 @@ export default function ScheduledAppointments() {
   },[refreshBtn])
   
   return (
-    <div className="p-6  bg-white rounded-lg row-span-4 col-start-5 row-start-2 max-w-md mx-auto">
+    <div className="p-6  bg-white rounded-lg row-span-2  col-start-5 row-start-2 h-[650px]  max-w-md mx-auto overflow-scroll">
       {eligibility_pop && <Eligibilepop cnic={cnic} onClose={()=>(
         seteligibiltiy_pop(false),
         setcnic("")
@@ -38,7 +38,7 @@ export default function ScheduledAppointments() {
       <button 
         onClick={()=>(
           setBntn(prev=>prev+1))}
-        // onClick={() => setBntn(prev => prev + 1)})
+       
       className="text-center w-full text-blue-500  border border-blue-500 rounded-md hover:bg-blue-50"> Refresh Appointment</button>
       <div className="space-y-3">
         {getapp.map((item, idx) => (

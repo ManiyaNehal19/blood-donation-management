@@ -1,4 +1,6 @@
 "use client";
+import React, { useState } from "react";
+
 type UserHistoryRecord = {
   _id: string;
   cnic: string;
@@ -12,6 +14,8 @@ interface UserHistoryProps {
 }
 
 const UserHistory = ({ user }: UserHistoryProps) => {
+  const [showAll, setShowAll] = useState(false);
+
   if (!user || user.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow-md p-6 mt-6 w-4/5 mx-auto">
@@ -23,19 +27,32 @@ const UserHistory = ({ user }: UserHistoryProps) => {
     );
   }
 
+  const displayedHistory = showAll ? user : user.slice(0, 3);
+
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mt-6 w-4/5 mx-auto">
-      <h2 className="text-xl font-semibold mb-6 flex items-center">
-        <span className="text-red-600 mr-2 text-2xl">📋</span> Donation History
-      </h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold flex items-center">
+          <span className="text-red-600 mr-2 text-2xl">📋</span> Donation History
+        </h2>
+    
+        {user.length > 3 && (
+          <button 
+            onClick={() => setShowAll(!showAll)}
+            className="text-md text-blue-500 cursor-pointer hover:underline font-medium"
+          >
+            {showAll ? "Show Less" : "View All"}
+          </button>
+        )}
+      </div>
 
-      <div>
-        {user.map((record) => (
+      <div className="space-y-3">
+        {displayedHistory.map((record) => (
           <div
             key={record._id}
-            className="flex justify-between mb-2 cursor-pointer items-center border-l-3 border-green-500 bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-all"
+            className="flex justify-between cursor-pointer items-center border-l-4 border-green-500 bg-gray-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-all"
           >
-            <div className="">
+            <div>
               <h3 className="font-semibold text-gray-800">Whole Blood Donation</h3>
               <p className="text-sm text-gray-500">
                 {new Date(record.historyDate).toLocaleDateString("en-US", {
@@ -45,7 +62,7 @@ const UserHistory = ({ user }: UserHistoryProps) => {
                 })}{" "}
                 • Blood Center
               </p>
-              <p className="text-green-600 font-medium mt-1">
+              <p className="text-green-600 font-medium mt-1 text-sm">
                 ✅ Completed Successfully
               </p>
             </div>

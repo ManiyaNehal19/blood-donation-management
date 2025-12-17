@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+import { unique } from "next/dist/build/utils";
 
 const transfusionSchema = new mongoose.Schema({
-  requestId: { type: String, required: true, },
+  requestId: { type: String, required: true, unique:true },
   unfulfilled: {
     "A+": { type: Number, default: 0 },
     "B+": { type: Number, default: 0 },

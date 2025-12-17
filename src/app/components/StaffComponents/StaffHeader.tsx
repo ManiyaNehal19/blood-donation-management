@@ -27,12 +27,13 @@ export default function DashboardCards() {
       bgcolor:"bg-green-200"
     },
     {
-      title: "Total Donors",
+      title: "Today's Requests ",
       value: totalDonors,
       icon:"👫" ,
       color:"text-purple-700",
       bgcolor:"bg-purple-200"
     },
+    
   ];
 
   return (
