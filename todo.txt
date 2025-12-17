@@ -4,9 +4,10 @@
 - Create Hospital dashboard ✅
 final demo prep
 - remove cnic from login for both staff and donor ✅
-- disable donate button based on last donation
-- single eligible data for each donor
+- disable donate button based on last donation ✅
+- single eligible data for each donor✅
 - remove unit options ✅
 - accomodate hospotal request within the staff plus how much they recieved
-- time should be options instead of typing
-- give confirmation whether it worked or not all confirmation
+- time should be options instead of typing✅
+- give confirmation whether it worked or not all confirmation ✅
+- Full view for dnations and appointments in separate page

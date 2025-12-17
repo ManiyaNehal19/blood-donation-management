@@ -11,8 +11,6 @@ const InventoryPop: React.FC<InventoryPopProps> = ({ cnic, onClose }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const [volume, setVolume] = useState("");
-  const [type, setType] = useState("");
-  const [date, setDate] = useState("");
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const InventoryPop: React.FC<InventoryPopProps> = ({ cnic, onClose }) => {
     e.preventDefault();
     setMessage(null);
 
-    if (!volume || !type || !date) {
+    if (!volume ) {
       setMessage("Please fill in all fields.");
       return;
     }
@@ -32,8 +30,6 @@ const InventoryPop: React.FC<InventoryPopProps> = ({ cnic, onClose }) => {
       const inventoryData = {
         cnic,
         volume: parseInt(volume),
-        type,
-        date: new Date(date).setUTCHours(0, 0, 0, 0),
       };
       
       const invRes = await axios.post("/api/inventory", inventoryData);
@@ -100,40 +96,8 @@ const InventoryPop: React.FC<InventoryPopProps> = ({ cnic, onClose }) => {
             />
           </div>
 
-          <div className="flex flex-col">
-            <label className="text-gray-600 font-medium mb-1">
-              Blood Type
-            </label>
-            <select
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className="border border-red-200 rounded-lg p-3 outline-none focus:ring-2 focus:ring-red-500"
-              required
-            >
-              <option value="">Select Type</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col">
-            <label className="text-gray-600 font-medium mb-1">
-              Collection Date
-            </label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="border border-red-200 rounded-lg p-3 outline-none focus:ring-2 focus:ring-red-500"
-              required
-            />
-          </div>
+         
+          
 
           <p className="text-xs text-gray-500 italic pt-2">
             Donor CNIC for History Update: <strong>{cnic}</strong>

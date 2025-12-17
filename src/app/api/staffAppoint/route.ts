@@ -18,7 +18,7 @@ export async function GET(request: Request) {
                         $gte: startOfDay,
                         $lte: endOfDay
                     },
-                    status: false
+                    completed: false
                 }
             },
             {

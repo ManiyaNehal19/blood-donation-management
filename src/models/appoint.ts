@@ -4,7 +4,8 @@ const appointmentSchema = new mongoose.Schema({
   donorCnic: { type: String, required: true },
   date: { type: Date, required: true },
   time: { type: String, required: true },
-  status: {type:Boolean, required: true}
+  status: {type:Boolean, required: true},
+  completed: {type:Boolean, required: true}
 });
 
 appointmentSchema.index({ donorCnic: 1, date: 1}, { unique: true });

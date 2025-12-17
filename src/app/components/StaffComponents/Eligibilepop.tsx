@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-// Define the component props
 interface EligiblePopProps {
   cnic: string;
   onClose: () => void;
@@ -11,11 +10,12 @@ interface EligiblePopProps {
 const Eligibilepop: React.FC<EligiblePopProps> = ({ cnic, onClose }) => {
   const dialogref = useRef<HTMLDialogElement>(null);
 
-  // State for health metrics
   const [hemoglobin, setHemoglobin] = useState<string>("");
   const [bloodPressure, setBloodPressure] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
-  const [message, setMessage] = useState<string | null>(null);
+  
+  const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dialogref.current?.showModal();
@@ -24,11 +24,7 @@ const Eligibilepop: React.FC<EligiblePopProps> = ({ cnic, onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage(null);
-    if (!hemoglobin || !bloodPressure || !weight) {
-      setMessage("Please fill in all health metrics.");
-      
-      return;
-    }
+    setLoading(true);
 
     try {
       const dataToSend = {
@@ -37,34 +33,36 @@ const Eligibilepop: React.FC<EligiblePopProps> = ({ cnic, onClose }) => {
         bloodPressure: parseFloat(bloodPressure),
         weight: parseFloat(weight),
         date: new Date().setUTCHours(0, 0, 0, 0),
-
       };
+
       const res = await axios.post("/api/eligibility", dataToSend);
 
-      setMessage(res.data.message || "Eligibility data submitted successfully.");
+    
+      setMessage({ text: `${res.data.message}`, type: "success" });
       
-        dialogref.current?.close();
-        onClose();
-      
+      setTimeout(() => {
+        handleClose();
+      }, 2000);
 
     } catch (error: any) {
       console.error("Eligibility submission error:", error);
-      setMessage(error.response?.data?.error || "Failed to submit screening data.");
-      
+      // Error Path
+      const errorMessage = error.response?.data?.error || "Failed to submit screening data. Please try again.";
+      setMessage({ text: errorMessage, type: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleClose = () => {
     dialogref.current?.close();
     onClose();
-  }
+  };
 
   return (
     <dialog
       ref={dialogref}
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm 
-                 flex items-center justify-center p-0 border-none 
-                 w-screen h-screen max-w-none max-h-none"
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-0 border-none w-screen h-screen max-w-none max-h-none"
     >
       <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg transition-all transform scale-100 opacity-100">
         
@@ -73,14 +71,18 @@ const Eligibilepop: React.FC<EligiblePopProps> = ({ cnic, onClose }) => {
         </h2>
 
         {message && (
-          <div className={`p-3 mb-4 rounded-lg text-sm ${message.includes("success") ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-            {message}
+          <div className={`p-4 mb-4 rounded-lg text-sm font-medium border-l-4 text-center animate-in fade-in zoom-in duration-300 ${
+            message.type === "success" 
+              ? "bg-green-100 text-green-800 border-green-500" 
+              : "bg-red-100 text-red-800 border-red-500"
+          }`}>
+           
+            {message.text}
           </div>
         )}
 
         <form className="space-y-5" onSubmit={handleSubmit}>
-          
-          {}
+      
           <div className="flex flex-col">
             <label className="text-gray-600 font-medium mb-1 flex justify-between items-center">
               Hemoglobin (g/dL) 
@@ -96,6 +98,8 @@ const Eligibilepop: React.FC<EligiblePopProps> = ({ cnic, onClose }) => {
               required
             />
           </div>
+
+          {/* Blood Pressure Input */}
           <div className="flex flex-col">
             <label className="text-gray-600 font-medium mb-1 flex justify-between items-center">
               Blood Pressure (Systolic) (mmHg) 
@@ -110,6 +114,8 @@ const Eligibilepop: React.FC<EligiblePopProps> = ({ cnic, onClose }) => {
               required
             />
           </div>
+
+          {/* Weight Input */}
           <div className="flex flex-col">
             <label className="text-gray-600 font-medium mb-1 flex justify-between items-center">
               Weight (kg) 
@@ -125,16 +131,17 @@ const Eligibilepop: React.FC<EligiblePopProps> = ({ cnic, onClose }) => {
             />
           </div>
 
-          <p className="text-xs text-gray-500 italic pt-2">
-            Screening for Donor CNIC: **{cnic}**
-          </p>
-
           <div className="flex justify-end gap-3 pt-4">
             <button
               type="submit"
-              className="px-6 py-2 rounded-lg font-semibold shadow-md transition-all duration-200 bg-red-600 hover:bg-red-700 text-white"
+              disabled={loading || message?.type === "success"}
+              className={`px-6 py-2 rounded-lg font-semibold shadow-md transition-all duration-200 ${
+                loading || message?.type === "success" 
+                ? "bg-gray-400 cursor-not-allowed" 
+                : "bg-red-600 hover:bg-red-700 text-white"
+              }`}
             >
-                Submit
+              {loading ? "Submitting..." : message?.type === "success" ? "Done" : "Submit"}
             </button>
 
             <button
@@ -142,7 +149,7 @@ const Eligibilepop: React.FC<EligiblePopProps> = ({ cnic, onClose }) => {
               onClick={handleClose}
               className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-lg font-semibold transition duration-150"
             >
-              Close
+              Cancel
             </button>
           </div>
         </form>

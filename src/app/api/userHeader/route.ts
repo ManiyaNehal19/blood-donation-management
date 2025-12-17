@@ -10,32 +10,43 @@ export async function POST(request) {
     const { cnic } = await request.json();
     const user = await Donor.findOne({ cnic });
     const donations = await DonorHistory.find({ cnic }).sort({ historyDate: -1 }); 
+    
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0); 
+
     const totalDonations = donations.length;
     const latestDonation = donations[0];
+    
     let latestDate = null;
-    let nextEligibleDate = null;
+    let nextEligibleDate = today;
     let eligibilityStatus = "Eligible"; 
 
-    if (latestDonation) {
-      latestDate = latestDonation.historyDate;
-      nextEligibleDate = new Date(latestDate);
-      nextEligibleDate.setDate(nextEligibleDate.getDate() + 90);
-      const today = new Date();
-      eligibilityStatus = nextEligibleDate <= today ? "Eligible" : "Not Eligible";
+   if (latestDonation) {
+      latestDate = new Date(latestDonation.historyDate);
+      
+      const calculatedDate = new Date(latestDate);
+      calculatedDate.setDate(calculatedDate.getDate() + 90);
+      if (calculatedDate <= today) {
+        nextEligibleDate = today;
+        eligibilityStatus = "Eligible";
+      } else {
+        nextEligibleDate = calculatedDate;
+        eligibilityStatus = "Not Eligible";
+      }
     }
 
     return NextResponse.json(
-     {
+      {
         bloodGroup: user?.bloodGroup ?? "Not found",
         totalDonations: totalDonations ?? 0,
-        nextEligibleDate: nextEligibleDate?.toISOString().split("T")[0] || Date.now().toString().split("T")[0],
+        nextEligibleDate: nextEligibleDate.toISOString().split("T")[0],
         eligibilityStatus: eligibilityStatus
       },
       { status: 201 }
     );
 
   } catch (error) {
-    console.log(error);
+    console.error("Eligibility Calculation Error:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
